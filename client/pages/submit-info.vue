@@ -112,11 +112,16 @@ export default {
 						'Content-Type': `multipart/form-data; boundary=${data._boundary}`
 					}
 				});
+
+				if (typeof res !== 'object' || !res.user) {
+					throw new Error('Authorization session expired. Please re-authorize.');
+				}
 	
 				this.loading = false;
 				this.success = true;
 				this.response = res;
 			} catch (error) {
+				this.loading = false;
 				this.error = error;
 			}
 		},
