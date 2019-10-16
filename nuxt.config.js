@@ -52,6 +52,8 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
 	axios: {
+		baseURL: '/',
+		progress: true
 	},
 	/*
   ** Build configuration

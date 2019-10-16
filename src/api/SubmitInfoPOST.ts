@@ -8,11 +8,11 @@ import { TOPICS, EVENTS } from '../util/logger';
 const promReadFile: (path: string) => Promise<Buffer> = promisify(readFile);
 const promUnlink: (path: string) => Promise<void> = promisify(unlink);
 
-export default class SubmitPhotosPOST extends Route {
+export default class SubmitInfoPOST extends Route {
 	public constructor() {
 		super({
 			method: 'post',
-			endpoint: ['/submit-photos']
+			endpoint: ['/submit-info']
 		});
 	}
 
@@ -21,29 +21,33 @@ export default class SubmitPhotosPOST extends Route {
 			res.status(400).json({ error: 'Unsupported content-type' });
 			return;
 		}
-		if (!req.fields || !req.fields.name || !req.files || !Object.keys(req.files).length) {
+		if (!req.fields || !req.fields.name || !req.fields.phone || !req.files || !Object.keys(req.files).length) {
 			res.status(400).json({ error: 'Missing form data' });
 			return;
 		}
 
-		const buffers: Buffer[] = [];
+		const ip = req.ip || req.connection.remoteAddress;
+
+		const userRepo = this.db.getRepository(User);
+		const user = new User(req.fields.name as string, req.fields.phone as string, ip);
+
+		// const buffers: Buffer[] = [];
 		let totalSize = 0;
 
 		for (const file of Object.values(req.files)) {
 			const buffer = await promReadFile(file.path);
-			buffers.push(buffer);
+			user.photos.push(new User.Photo(buffer));
 			totalSize += file.size;
 			await promUnlink(file.path);
 		}
-
-		const userRepo = this.db.getRepository(User);
-		const user = new User(req.fields.name as string, buffers);
 
 		await userRepo.save(user);
 
 		this.logger.info(`${user.id} (${(totalSize / 1024).toFixed(3)} KB)`, {
 			topic: TOPICS.MONGODB,
-			event: EVENTS.NEW_USER
+			event: EVENTS.NEW_USER,
+			name: user.name,
+			photos: user.photos.length
 		});
 		res.status(200).json({
 			user: {

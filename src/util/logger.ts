@@ -14,7 +14,8 @@ export enum EVENTS {
 	INIT = 'INIT',
 	ERROR = 'ERROR',
 	READY = 'READY',
-	NEW_USER = 'NEW_USER'
+	NEW_USER = 'NEW_USER',
+	ENDPOINT_HIT = 'ENDPOINT_HIT'
 }
 
 export const logger = createLogger({

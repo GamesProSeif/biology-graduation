@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { readdir } from 'fs-extra';
 import { join } from 'path';
 import { promisify } from 'util';
-import Route from '../../structures/Route';
+import Route from '../../../structures/Route';
 
 const promReaddir: (path: string) => Promise<string[]> = promisify(readdir);
 
@@ -22,7 +22,7 @@ export default class LogsGET extends Route {
 	public constructor() {
 		super({
 			method: 'get',
-			endpoint: ['/logs']
+			endpoint: ['/admin/logs']
 		});
 	}
 
@@ -37,7 +37,7 @@ export default class LogsGET extends Route {
 			return;
 		}
 
-
-		res.redirect(`/api/logs/${files[0]}`);
+		const auth = req.query.auth;
+		res.redirect(`/api/admin/logs/${files[0]}${auth ? `?auth=${auth}` : ''}`);
 	}
 }

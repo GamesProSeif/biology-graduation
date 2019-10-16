@@ -44,3 +44,17 @@ export function parseRouteEndpoints(route: Route, defaultPath: string, endpoints
 
 	return endpoints;
 }
+
+export const enum AUTH_TYPE {
+	STUDENT,
+	SPECIAL,
+	TEACHER,
+	ADMIN
+}
+
+export const AUTH_PW = [
+	process.env.STUDENT_PW!,
+	process.env.SPECIAL_PW!,
+	process.env.TEACHER_PW!,
+	process.env.ADMIN_PW!
+];

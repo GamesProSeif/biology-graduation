@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { Express, json, urlencoded, RequestHandler } from 'express';
+import { Express, json, urlencoded, RequestHandler, Response } from 'express';
 import * as formidable from 'express-formidable';
+import * as jwt from 'jsonwebtoken';
+import * as morgan from 'morgan';
 import { join, resolve } from 'path';
 import { Connection } from 'typeorm';
+import { IAuthDecoded } from 'typings';
 import { Logger } from 'winston';
 import Database from './Database';
 import Route from './Route';
-import { readdirRecursive, parseRouteEndpoints } from '../util';
+import { AUTH_PW, readdirRecursive, parseRouteEndpoints } from '../util';
 import { logger, TOPICS, EVENTS } from '../util/logger';
 
 // Import and Set Nuxt.js options
@@ -44,11 +47,71 @@ export default class Server {
 	private setMiddlewares() {
 		// Body Parser Middleware
 		this.server.use(json());
-		this.logger.info('Loaded json middleware', { topic: TOPICS.EXPRESS, event: EVENTS.INIT });
+		this.logger.debug('Loaded json middleware', { topic: TOPICS.EXPRESS, event: EVENTS.INIT });
 		this.server.use(urlencoded({ extended: false }));
-		this.logger.info('Loaded urlencoded middleware', { topic: TOPICS.EXPRESS, event: EVENTS.INIT });
+		this.logger.debug('Loaded urlencoded middleware', { topic: TOPICS.EXPRESS, event: EVENTS.INIT });
 		this.server.use(formidable());
-		this.logger.info('Loaded formidable middleware', { topic: TOPICS.EXPRESS, event: EVENTS.INIT });
+		this.logger.debug('Loaded formidable middleware', { topic: TOPICS.EXPRESS, event: EVENTS.INIT });
+
+		this.server.use(
+			morgan(
+				':method :url :status :remote-addr :response-time[3] :referrer',
+				{
+					stream: {
+						write: (str: string) => this.logger.debug(str.replace('\n', ''), {
+							topic: TOPICS.EXPRESS,
+							event: EVENTS.ENDPOINT_HIT
+						})
+					}
+				}
+			)
+		);
+		this.logger.debug('Loaded morgan middleware', { topic: TOPICS.EXPRESS, event: EVENTS.INIT });
+
+		this.server.use((req, res, next) => {
+			const ip = req.ip || req.connection.remoteAddress;
+			const token = req.query.auth;
+			let decoded: IAuthDecoded | null = null;
+
+			function redirectAuth(res: Response, t = 0) {
+				res.redirect(`/auth?t=${t}`);
+			}
+
+			function performChecks(t = 0) {
+				if (
+					!decoded ||
+					decoded.t < t ||
+					decoded.pw !== AUTH_PW[decoded.t]
+				) {
+					redirectAuth(res, t);
+					return false;
+				}
+				return true;
+			}
+
+			try {
+				if (token) {
+					decoded = jwt.verify(token, process.env.SECRET!) as IAuthDecoded;
+					if (decoded && decoded.ip !== ip) decoded = null;
+				}
+			} catch {}
+
+			if (['/submit-info', '/api/submit-info'].some(e => req.url.startsWith(e))) {
+				// Level 0 Student
+				if (!performChecks()) return;
+			} else if (['/list'].some(e => req.url.startsWith(e))) {
+				// Level 1 Special
+				if (!performChecks(1)) return;
+			} else if (['/overview'].some(e => req.url.startsWith(e))) {
+				// Level 2 Teacher
+				if (!performChecks(2)) return;
+			} else if (['/admin', '/api/admin'].some(e => req.url.startsWith(e))) {
+				// Level 3 Admin
+				if (!performChecks(3)) return;
+			}
+
+			next();
+		});
 	}
 
 	public async init() {
@@ -76,6 +139,7 @@ export default class Server {
 		}
 
 		this.setMiddlewares();
+		this.logger.info('Loaded all pre middlewares', { topic: TOPICS.EXPRESS, event: EVENTS.INIT });
 
 		await this.loadAll();
 
@@ -90,7 +154,7 @@ export default class Server {
 		);
 
 		this.server.use(this.nuxt.render);
-		this.logger.info('Loaded Nuxt renderer', { topic: TOPICS.EXPRESS, event: EVENTS.INIT });
+		this.logger.debug('Loaded Nuxt renderer', { topic: TOPICS.EXPRESS, event: EVENTS.INIT });
 
 		// Listen the server
 		this.server.listen(this.port);
@@ -132,7 +196,7 @@ export default class Server {
 		}
 
 		if (this.DEV) {
-			this.logger.info(`Loaded route: ${file.id}`, {
+			this.logger.debug(`Loaded route: ${file.id}`, {
 				topic: TOPICS.EXPRESS,
 				event: EVENTS.INIT
 			});

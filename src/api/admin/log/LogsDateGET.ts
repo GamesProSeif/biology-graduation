@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { readFile } from 'fs-extra';
 import { join } from 'path';
 import { promisify } from 'util';
-import Route from '../../structures/Route';
+import Route from '../../../structures/Route';
 
 const promReadFile: (path: string, encoding: string) => Promise<string> = promisify(readFile);
 
@@ -10,7 +10,7 @@ export default class LogsDateGET extends Route {
 	public constructor() {
 		super({
 			method: 'get',
-			endpoint: ['/logs/:date']
+			endpoint: ['/admin/logs/:date']
 		});
 	}
 
