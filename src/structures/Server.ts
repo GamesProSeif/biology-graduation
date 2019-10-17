@@ -42,6 +42,10 @@ export default class Server {
 		const { host, port } = this.nuxt.options.server;
 		this.host = host;
 		this.port = port;
+
+		if (process.env.NODE_ENV === 'production') {
+			this.server.enable('trust proxy');
+		}
 	}
 
 	private setMiddlewares() {
