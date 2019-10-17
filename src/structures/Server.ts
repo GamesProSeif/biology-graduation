@@ -153,6 +153,8 @@ export default class Server {
 			}
 		);
 
+		this.server.get('/favicon.ico', (_, res) => res.redirect('/favicon.png'));
+
 		this.server.use(this.nuxt.render);
 		this.logger.debug('Loaded Nuxt renderer', { topic: TOPICS.EXPRESS, event: EVENTS.INIT });
 

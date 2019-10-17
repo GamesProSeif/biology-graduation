@@ -30,7 +30,7 @@ export default class LogsGET extends Route {
 		const files = (await promReaddir(join(process.cwd(), 'logs')))
 			.filter((file: string) => file.endsWith('.log'))
 			.map(parseFilename)
-			.sort((a, b) => b.date.getMilliseconds() - a.date.getMilliseconds());
+			.sort((a, b) => b.date.getTime() - a.date.getTime());
 
 		if (!files.length) {
 			res.status(500).json({ error: 'No log files available' });

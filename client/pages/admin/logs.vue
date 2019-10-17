@@ -1,12 +1,25 @@
 <template>
 	<div class="mb-4">
-		<b-button href="#end" class="mb-4" size="lg" variant="primary">Go down</b-button>
-		<b-list-group v-if="show">
-		<div v-for="log in logs" v-bind:key="logs.indexOf(log)">
-			<Log :log="log"></Log>
+		<div v-if="show && !error">
+			<div class="text-center">
+				<b-button href="#end" class="mb-4" size="lg" variant="primary">Go down</b-button>
+			</div>
+			<b-list-group>
+				<div v-for="log in logs" v-bind:key="logs.indexOf(log)">
+					<Log :log="log"></Log>
+				</div>
+			</b-list-group>
+			<a id="end"></a>
 		</div>
-		</b-list-group>
-		<a href="#" id="end"></a>
+		<div v-else-if="!error" class="text-center">
+			<b-spinner style="width: 3rem; height: 3rem;" variant="primary" label="Spinning"></b-spinner>
+		</div>
+		<div v-else class="mt-4">
+			<b-alert show dismissible variant="danger">
+				<h4>Error</h4>
+				<p>{{ error }}</p>
+			</b-alert>
+		</div>
 	</div>
 </template>
 
@@ -20,15 +33,21 @@ export default {
 	data() {
 		return {
 			logs: [],
-			show: false
+			show: false,
+			error: null
 		}
 	},
 	methods: {
 		async onLoad() {
-			const auth = this.$route.query.auth;
-			const res = await this.$axios.$get(`/api/admin/logs${auth ? `?auth=${auth}` : '' } `);
-			this.logs = res.logs;
-			this.show = true;
+			try {
+				const auth = this.$route.query.auth;
+				const res = await this.$axios.$get(`/api/admin/logs${auth ? `?auth=${auth}` : '' } `);
+				this.logs = res.logs;
+				this.show = true;
+			} catch (error) {
+				this.show = false;
+				this.error = error;
+			}
 		}
 	},
 	mounted() {

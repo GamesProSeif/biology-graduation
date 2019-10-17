@@ -37,7 +37,7 @@ export default class AuthGET extends Route {
 			return;
 		}
 
-		const token = jwt.sign({ pw, t, ip }, process.env.SECRET!, { expiresIn: '10m' });
+		const token = jwt.sign({ pw, t, ip }, process.env.SECRET!, { expiresIn: 20 * 60 * 1000 });
 		res.json({ token });
 	}
 }

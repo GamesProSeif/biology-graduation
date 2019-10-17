@@ -24,7 +24,7 @@ export default class LogsDateGET extends Route {
 			'utf8'
 		);
 		const logs = file
-			.split(/\r\n/)
+			.split(/\r?\n/)
 			.filter(l => l)
 			.map(line => JSON.parse(line));
 
