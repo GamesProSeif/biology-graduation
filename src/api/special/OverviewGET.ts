@@ -15,10 +15,7 @@ export default class OverviewGET extends Route {
 		const userRepo = this.db.getRepository(User);
 		// @ts-ignore
 		const users = await userRepo.find({
-			select: ['name', 'phone', 'photos.size', 'createdAt'],
-			order: {
-				createdAt: 'ASC'
-			}
+			select: ['name', 'phone', 'photos.size', 'createdAt']
 		});
 
 		res.status(200).json({
@@ -28,7 +25,7 @@ export default class OverviewGET extends Route {
 			users: users.map((user: User) => {
 				(user.photos as unknown) = user.photos.length;
 				return user;
-			})
+			}).sort((a: User, b: User) => a.createdAt.getTime() - b.createdAt.getTime())
 		});
 	}
 }
