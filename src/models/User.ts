@@ -1,6 +1,6 @@
 import { Entity, Column, CreateDateColumn, ObjectIdColumn } from 'typeorm';
 
-class Photo {
+export class Photo {
 	@Column()
 	public buffer!: Buffer;
 

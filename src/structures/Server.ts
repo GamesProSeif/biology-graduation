@@ -103,10 +103,10 @@ export default class Server {
 			if (['/submit-info', '/api/submit-info'].some(e => req.url.startsWith(e))) {
 				// Level 0 Student
 				if (!performChecks()) return;
-			} else if (['/list'].some(e => req.url.startsWith(e))) {
+			} else if (['/special', '/api/special'].some(e => req.url.startsWith(e))) {
 				// Level 1 Special
 				if (!performChecks(1)) return;
-			} else if (['/overview'].some(e => req.url.startsWith(e))) {
+			} else if (['/teacher', '/api/teacher'].some(e => req.url.startsWith(e))) {
 				// Level 2 Teacher
 				if (!performChecks(2)) return;
 			} else if (['/admin', '/api/admin'].some(e => req.url.startsWith(e))) {

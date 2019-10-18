@@ -65,16 +65,13 @@
 				<p>Information uploaded and saved</p>
 			</b-alert>
 		</div>
-		<div v-if="error" class="mt-4">
-			<b-alert show dismissible variant="danger">
-				<h4>Error</h4>
-				<p>{{ error }}</p>
-			</b-alert>
-		</div>
+		<Error :error="error"/>
 	</div>
 </template>
 
 <script>
+import Error from '~/components/Error';
+
 export default {
 	data() {
 		return {

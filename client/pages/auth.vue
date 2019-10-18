@@ -76,7 +76,7 @@ export default {
 				{ value: '/list/names', text: 'List Names (under development)', disabled: true },
 				{ value: '/list/phone', text: 'List Phone (under development)', disabled: true },
 				{ value: '/list/photos', text: 'List Photos (under development)', disabled: true },
-				{ value: '/overview', text: 'Overview (under development)', disabled: true },
+				{ value: '/special/overview', text: 'Overview' },
 				{ value: '/admin/logs', text: 'Server Logs' },
 			],
 			error: null

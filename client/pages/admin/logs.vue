@@ -14,21 +14,18 @@
 		<div v-else-if="!error" class="text-center">
 			<b-spinner style="width: 3rem; height: 3rem;" variant="primary" label="Spinning"></b-spinner>
 		</div>
-		<div v-else class="mt-4">
-			<b-alert show dismissible variant="danger">
-				<h4>Error</h4>
-				<p>{{ error }}</p>
-			</b-alert>
-		</div>
+		<Error v-else :error="error"/>
 	</div>
 </template>
 
 <script>
 import Log from '~/components/Log';
+import Error from '~/components/Error';
 
 export default {
 	components: {
-		Log
+		Log,
+		Error
 	},
 	data() {
 		return {
