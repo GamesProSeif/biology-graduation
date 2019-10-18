@@ -45,11 +45,11 @@ export default class Server {
 
 		if (process.env.NODE_ENV === 'production') {
 			this.server.enable('trust proxy');
-			this.server.use((req, res) => {
-				if (!req.secure) {
-					res.redirect(`https://${req.headers.host}${req.url}`);
-				}
-			});
+			// this.server.use((req, res) => {
+			// 	if (!req.secure) {
+			// 		res.redirect(`https://${req.headers.host}${req.url}`);
+			// 	}
+			// });
 		}
 	}
 
