@@ -1,6 +1,12 @@
 <template>
 	<div>
 		<b-form @submit="onSubmit" @reset="onReset" v-if="show">
+			<h1>Submit Information</h1>
+			<hr>
+			<b-alert show variant="warning" dismissible>
+				<h4>Warning</h4>
+				<p>If your device doesn't support selecting more than one photo at once, feel free to submit multiple times. Make sure you enter the same name and phone so photos get merged to your existing entry successfully.</p>
+			</b-alert>
 			<b-form-group
 				id="input-group-name"
 				description="Recommended: Enter first, second, third and last names for graduation certificates."
@@ -51,7 +57,6 @@
 				></b-form-file>
 			</b-form-group>
 
-
 			<b-button v-if="loading" variant="primary" disabled>
 				<b-spinner small></b-spinner>
 				Uploading...
@@ -62,7 +67,9 @@
 		<div v-if="success" class="mt-4">
 			<b-alert show variant="success">
 				<h4>Uploaded</h4>
-				<p>Information uploaded and saved</p>
+				<p v-if="response.modified">Added photos to existing entry</p>
+				<p v-else>Information uploaded and saved</p>
+				<p>Total Photos: <strong>{{ response.user.photos }}</strong></p>
 			</b-alert>
 		</div>
 		<Error :error="error"/>
@@ -73,6 +80,9 @@
 import Error from '~/components/Error';
 
 export default {
+	components: {
+		Error
+	},
 	data() {
 		return {
 			form: {

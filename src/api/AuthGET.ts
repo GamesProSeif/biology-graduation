@@ -12,9 +12,9 @@ export default class AuthGET extends Route {
 	}
 
 	public exec(req: Request, res: Response) {
-		const pw = req.query.pw;
-		const t = parseInt(req.query.t, 10);
-		const ip = req.ip || req.connection.remoteAddress;
+		const pw: string = req.query.pw;
+		const t: number = parseInt(req.query.t, 10);
+		const ip: string = req.ip || req.connection.remoteAddress!;
 		// const redirect = req.query.redirect;
 
 		if (!pw || (!t && t !== 0) || !ip) {
@@ -37,7 +37,7 @@ export default class AuthGET extends Route {
 			return;
 		}
 
-		const token = jwt.sign({ pw, t, ip }, process.env.SECRET!, { expiresIn: 20 * 60 * 1000 });
+		const token = jwt.sign({ pw, t, ip }, process.env.SECRET!, { expiresIn: 1370 });
 		res.json({ token });
 	}
 }

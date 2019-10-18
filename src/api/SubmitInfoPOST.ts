@@ -17,6 +17,9 @@ export default class SubmitInfoPOST extends Route {
 	}
 
 	public async exec(req: Request, res: Response): Promise<void> {
+		let user: User | undefined;
+		let modified = false;
+
 		if (!(req.headers['content-type'] as string).startsWith('multipart/form-data;')) {
 			res.status(400).json({ error: 'Unsupported content-type' });
 			return;
@@ -26,13 +29,21 @@ export default class SubmitInfoPOST extends Route {
 			return;
 		}
 
+		const name = (req.fields.name as string).trim();
+		const phone = (req.fields.phone as string).trim();
 		const ip = req.ip || req.connection.remoteAddress;
-
-		const userRepo = this.db.getRepository(User);
-		const user = new User(req.fields.name as string, req.fields.phone as string, ip);
-
-		// const buffers: Buffer[] = [];
 		let totalSize = 0;
+		const userRepo = this.db.getRepository(User);
+
+		user = await userRepo.findOne({
+			where: { phone }
+		});
+
+		if (user) {
+			modified = true;
+		} else {
+			user = new User(name, phone, ip);
+		}
 
 		for (const file of Object.values(req.files)) {
 			const buffer = await promReadFile(file.path);
@@ -49,11 +60,14 @@ export default class SubmitInfoPOST extends Route {
 			name: user.name,
 			photos: user.photos.length
 		});
+
 		res.status(200).json({
 			user: {
 				id: user.id,
-				name: user.name
-			}
+				name: user.name,
+				photos: user.photos.length
+			},
+			modified
 		});
 	}
 }

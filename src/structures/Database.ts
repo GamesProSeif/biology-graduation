@@ -7,7 +7,8 @@ const connection = manager.create({
 	url: process.env.DB_URI,
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
-	entities: [User]
+	entities: [User],
+	database: process.env.NODE_ENV === 'development' ? 'dev' : 'test'
 });
 
 export default connection;
