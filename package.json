@@ -56,6 +56,9 @@
     "nodemon": "^1.18.9",
     "typescript": "^3.6.4"
   },
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "eslintConfig": {
     "extends": [
       "marine/node"
