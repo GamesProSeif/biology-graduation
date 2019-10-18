@@ -29,20 +29,20 @@ export default class PhotosDownloadGET extends Route {
 
 		users.forEach(user => {
 			if (!user.photos || !user.photos.length) return;
-			const name = user.name.replace(/\s+/, '_');
+			const foldername = `${user.name.trim().replace(/\s+/g, '_')}_${user.id}`;
 			const info = stringify({
 				id: user.id,
 				name: user.name,
 				phone: user.phone,
 				createdAt: moment(user.createdAt).utc().format('ddd MMM YYYY - HH:mm')
 			});
-			zip.folder(name);
 
-			zip.file(`${name}/info.yml`, info);
+			zip.folder(foldername);
+			zip.file(`${foldername}/info.yml`, info);
 
 			user.photos.forEach((photo, i) => {
 				const { ext } = fileType(photo.buffer.buffer)!;
-				zip.file(`${name}/${i + 1}.${ext}`, photo.buffer.buffer);
+				zip.file(`${foldername}/${i + 1}.${ext}`, photo.buffer.buffer);
 			});
 		});
 
