@@ -26,5 +26,5 @@
 		"inlineSourceMap": true
 	},
 	"include": ["./src/**/*"],
-	"exclude": ["./client/**/*", "nuxt.config.js"]
+	"exclude": ["./client/**/*", "nuxt.config.js", "./node_modules/**/*"]
 }
