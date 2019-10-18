@@ -73,9 +73,6 @@ export default {
 			redirect: [
 				{ value: null, text: 'Select redirect to' },
 				{ value: '/submit-info', text: 'Submit info' },
-				{ value: '/list/names', text: 'List Names (under development)', disabled: true },
-				{ value: '/list/phone', text: 'List Phone (under development)', disabled: true },
-				{ value: '/list/photos', text: 'List Photos (under development)', disabled: true },
 				{ value: '/special/overview', text: 'Overview' },
 				{ value: '/admin/logs', text: 'Server Logs' },
 			],
