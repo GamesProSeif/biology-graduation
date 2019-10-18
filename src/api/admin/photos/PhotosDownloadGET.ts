@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as fileType from 'file-type';
+// @ts-ignore
 import * as JSZip from 'jszip';
 import * as moment from 'moment';
 import { PassThrough } from 'stream';
