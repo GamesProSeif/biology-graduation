@@ -9,7 +9,11 @@ tasks:
     status: -1
   - 
     name: Hall Booking
-    charge: Aaliya
+    charge: Aaliya Idriss
+    status: 0
+  - 
+    name: Hall Decoration
+    charge: Malak Hany
     status: 0
   - 
     name: Mug Printing
