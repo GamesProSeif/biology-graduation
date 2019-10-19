@@ -73,6 +73,7 @@ export default {
 			redirect: [
 				{ value: null, text: 'Select redirect to' },
 				{ value: '/submit-info', text: 'Submit info' },
+				{ value: '/student/feed', text: 'Feed' },
 				{ value: '/special/overview', text: 'Overview' },
 				{ value: '/admin/logs', text: 'Server Logs' },
 			],
