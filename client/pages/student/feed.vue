@@ -2,17 +2,24 @@
 	<div>
 		<h1>Feed</h1>
 		<hr>
+		<h3>Table of Contents</h3>
+		<ol>
+			<li><a href="#tasks">Tasks</a></li>
+			<li><a href="#programme">Programme</a></li>
+			<li><a href="#details">Details</a></li>
+		</ol>
+		<hr>
 		<div v-if="loading" class="text-center">
 			<b-spinner style="width: 3rem; height: 3rem;" variant="primary" label="Spinning"></b-spinner>
 		</div>
 		<div v-if="show">
-			<h4>Tasks</h4>
+			<h3 id="tasks">Tasks</h3>
 			<FeedList :feeds="tasks" class="mt-4" />
 			<hr>
-			<h4>Programme</h4>
+			<h3 id="programme">Programme</h3>
 			<FeedList :feeds="programme" class="mt-4" />
 			<hr>
-			<h4>Details</h4>
+			<h3 id="details">Details</h3>
 			<p class="mt-4">Date: <strong>{{ details.date || 'unknown' }}</strong></p>
 			<p>Location: <strong>{{ details.location || 'unknown' }}</strong></p>
 		</div>
