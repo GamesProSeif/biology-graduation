@@ -1,0 +1,67 @@
+tasks:
+  - 
+    name: Food Material
+    charge: Waleed Nader
+    status: 1
+  - 
+    name: Graduation Certificates
+    charge: Ahmed Hossam
+    status: -1
+  - 
+    name: Hall Booking
+    charge: Aaliya
+    status: 0
+  - 
+    name: Mug Printing
+    charge: Rawan
+    status: 0
+  - 
+    name: Photography
+    charge: Mariya
+    status: 0
+  - 
+    name: Presents and Bags
+    charge: Aseel
+    status: 0
+  - 
+    name: Sound System
+    charge: Mrs Mona
+    status: 1
+  - 
+    name: Video Presentation
+    charge: Seif Mansour
+    status: -1
+programme:
+  - 
+    name: Questions Contest
+    charge: Farah Waleed
+    status: 0
+    description:
+      Contest of answering questions about culture, art, sports, history, geography, mathematics, biology, and much more.
+  - 
+    name: Yogurt Eating
+    charge: null
+    status: -1
+    description:
+      Let's see who is the fastest one to eat yogurt.
+  - 
+    name: Musical Chairs
+    charge: null
+    status: 1
+    description:
+      Nothing better than the most classical game ever, musical chairs.
+  - 
+    name: Biology Has Talent
+    charge: null
+    status: -1
+    description:
+      Do you have any talents you want to show off in the party? Come show it off!
+  - 
+    name: Tug of War
+    charge: null
+    status: -1
+    description:
+      Another classical game. The strongest team will be able to pull the rope to their side.
+details:
+  date: 15/11/2019
+  location: null

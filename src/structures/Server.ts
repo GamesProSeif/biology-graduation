@@ -105,7 +105,7 @@ export default class Server {
 				}
 			} catch {}
 
-			if (['/submit-info', '/api/submit-info'].some(e => req.url.startsWith(e))) {
+			if (['/submit-info', '/api/submit-info', '/student', '/api/student'].some(e => req.url.startsWith(e))) {
 				// Level 0 Student
 				if (!performChecks()) return;
 			} else if (['/special', '/api/special'].some(e => req.url.startsWith(e))) {
