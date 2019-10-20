@@ -45,6 +45,8 @@ programme:
   - 
     name: Yogurt Eating
     charge: null
+    participants: 
+      - Thomas Emad
     status: -1
     description:
       Let's see who is the fastest one to eat yogurt.

@@ -11,7 +11,15 @@
 					</span>
 				</h5>
 				<hr>
-				<p>In Charge: <strong>{{ feed.charge || 'not set' }}</strong></p>
+				<p>
+					In Charge: 
+					<strong v-if="typeof feed.charge === 'string'">{{ feed.charge }}</strong>
+					<strong v-else-if="Array.isArray(feed.charge)">{{ feed.charge.join(', ') }}</strong>
+					<strong v-else>not set</strong>
+				</p>
+				<p v-if="feed.participants">
+					Participants: <strong>{{ feed.participants.join(', ') }}</strong>
+				</p>
 				<div v-if="feed.description">
 					<hr>
 					<p>{{ feed.description }}</p>

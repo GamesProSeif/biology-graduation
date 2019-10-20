@@ -3,9 +3,9 @@
 		<b-form @submit="onSubmit" @reset="onReset" v-if="show">
 			<h1>Submit Information</h1>
 			<hr>
-			<b-alert show variant="warning" dismissible>
-				<h4>Warning</h4>
-				<p>If your device doesn't support selecting more than one photo at once, feel free to submit multiple times. Make sure you enter the same name and phone so photos get merged to your existing entry successfully.</p>
+			<b-alert show variant="info" dismissible>
+				<h4>Tip</h4>
+				<p>You can submit without photos. Multiple submissions is supported. Make sure you put the same name and phone number you entered previously so data is merged. (aka you can add photos later)</p>
 			</b-alert>
 			<b-form-group
 				id="input-group-name"
@@ -32,14 +32,13 @@
 					id="input-phone"
 					v-model="form.phone"
 					:state="Boolean(form.phone)"
-					required
 					placeholder="Enter phone"
 				></b-form-input>
 			</b-form-group>
 
 			<b-form-group
 				id="input-group-photos"
-				description="Max of 5 photos (jpg/png)."
+				description="Max of 5 photos (jpg/png) (Optional)."
 				label="Photos"
 				label-for="input-photos"
 			>
@@ -48,12 +47,11 @@
 					class="overflow-hidden"
 					accept=".jpg, .png"
 					v-model="form.photos"
-					:state="Boolean(form.photos.length && form.photos.length <= 5)"
+					:state="Boolean(form.photos.length <= 5)"
 					:file-name-formatter="formatNames"
 					placeholder="Choose files or drop here..."
 					drop-placeholder="Drop files here..."
 					multiple
-					required
 				></b-form-file>
 			</b-form-group>
 
@@ -67,7 +65,7 @@
 		<div v-if="success" class="mt-4">
 			<b-alert show variant="success">
 				<h4>Uploaded</h4>
-				<p v-if="response.modified">Added photos to existing entry</p>
+				<p v-if="response.modified">Modified existing entry</p>
 				<p v-else>Information uploaded and saved</p>
 				<p>Total Photos: <strong>{{ response.user.photos }}</strong></p>
 			</b-alert>

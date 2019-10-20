@@ -24,14 +24,14 @@ export default class SubmitInfoPOST extends Route {
 			res.status(400).json({ error: 'Unsupported content-type' });
 			return;
 		}
-		if (!req.fields || !req.fields.name || !req.fields.phone || !req.files || !Object.keys(req.files).length) {
+		if (!req.fields || !req.fields.name || !req.fields.phone /* || !req.files || !Object.keys(req.files).length */) {
 			res.status(400).json({ error: 'Missing form data' });
 			return;
 		}
 
 		const name = (req.fields.name as string).trim();
 		const phone = (req.fields.phone as string).trim();
-		const ip = req.ip || req.connection.remoteAddress;
+		const ip = req.ip || req.connection.remoteAddress!;
 		let totalSize = 0;
 		const userRepo = this.db.getRepository(User);
 
@@ -40,16 +40,20 @@ export default class SubmitInfoPOST extends Route {
 		});
 
 		if (user) {
+			user.name = name;
+			user.ip = ip;
 			modified = true;
 		} else {
 			user = new User(name, phone, ip);
 		}
 
-		for (const file of Object.values(req.files)) {
-			const buffer = await promReadFile(file.path);
-			user.photos.push(new User.Photo(buffer));
-			totalSize += file.size;
-			await promUnlink(file.path);
+		if (req.files && Object.keys(req.files).length) {
+			for (const file of Object.values(req.files)) {
+				const buffer = await promReadFile(file.path);
+				user.photos.push(new User.Photo(buffer));
+				totalSize += file.size;
+				await promUnlink(file.path);
+			}
 		}
 
 		await userRepo.save(user);
