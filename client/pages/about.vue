@@ -44,7 +44,7 @@
 		<p>
 			The student has to go through the authorization process.<br>
 			First enter the password, then enter the respective password type (usually <italics>Student</italics>). Additionally, specify where to be redirected (<italics>Submit Info</italics> page)<br>
-			Input your details accurately in the boxes, select max of 5 photos of yours and choose submit.<br>
+			Input your details accurately in the boxes, select max of 5 photos of yours (optional) and choose submit.<br>
 			If there's an unexpected error or you are having difficulty, please tell me on the WhatsApp group.
 		</p>
 
