@@ -9,7 +9,9 @@ tasks:
     status: -1
   - 
     name: Graduation Certificates
-    charge: Ahmed Hossam
+    charge: 
+      - Ahmed Hossam
+      - Ahmed Yasser
     status: -1
   - 
     name: Hall Booking
