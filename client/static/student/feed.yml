@@ -4,12 +4,20 @@ tasks:
     charge: Waleed Nader
     status: 1
   - 
+    name: Cake
+    charge: null
+    status: -1
+  - 
     name: Graduation Certificates
     charge: Ahmed Hossam
     status: -1
   - 
     name: Hall Booking
-    charge: Aaliya Idriss
+    charge: 
+      - Aaliya Idriss
+      - Ahmed Hazem
+      - Malak Hany
+      - Seif Mansour
     status: 0
   - 
     name: Hall Decoration
@@ -69,5 +77,5 @@ programme:
     description:
       Another classical game. The strongest team will be able to pull the rope to their side.
 details:
-  date: 15/11/2019
+  date: null
   location: null
