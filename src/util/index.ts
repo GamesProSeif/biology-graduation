@@ -36,7 +36,8 @@ export function parseRouteEndpoints(route: Route, defaultPath: string, endpoints
 	route.endpoint!.forEach((r: string | RegExp) => {
 		r = r.toString();
 		if (Object.keys(endpoints).includes(r)) {
-			throw new Error(`Duplicate endpoint found ${r} - conflict: ${route.id} and ${endpoints[r]}`);
+			// Find another method to check for duplicate routes (make account for methods GET/POST/DELETE/...)
+			// throw new Error(`Duplicate endpoint found ${r} - conflict: ${route.id} and ${endpoints[r]}`);
 		}
 
 		endpoints[r] = route.id;

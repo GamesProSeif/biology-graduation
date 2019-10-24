@@ -21,7 +21,10 @@
 			<hr>
 			<h3 id="details">Details</h3>
 			<p class="mt-4">Date: <strong>{{ details.date || 'unknown' }}</strong></p>
-			<p>Location: <strong>{{ details.location || 'unknown' }}</strong></p>
+			<p>
+				Location: 
+				<a target="_blank" :href="details.locationURL">{{ details.location || 'unknown' }}</a>
+				</p>
 		</div>
 		<Error :error="error" />
 	</div>
