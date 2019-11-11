@@ -1,3 +1,4 @@
+> This project is no longer used and is set read mode only.
 # biology-graduation
 
 > Website for the biology graduation
